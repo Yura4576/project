@@ -14,28 +14,35 @@ class CreateBlogPostsTable extends Migration
     public function up()
     {
         Schema::create('blog_posts', function (Blueprint $table) {
-            $table->increment(column:'id');
+            $table->bigIncrements('id');
 
-            $table->integer(column:'category_id')->unsigned();
-            $table->integer(column:'user_id')->unsigned();
 
-            $table->string(column:'slug')->unique();
-            $table->string(column:'title');
+            $table->bigInteger('category_id');
+            $table->bigInteger('user_id')->unsigned()->nullable();
 
-            $table->text(column:'excerpt')->nullable();
 
-            $table->text(column:'content_raw');
-            $table->text(column:'content_html');
+            $table->string('slug')->unique();
+            $table->string('title');
 
-            $table->boolean(column:'is_published')->default(value:false);
-            $table->timestamp(column:'published_at')->nullable();
+
+            $table->text('excerpt')->nullable();
+
+
+            $table->text('content_raw');
+            $table->text('content_html');
+
+
+            $table->boolean('is_published')->default(false);
+            $table->timestamp('published_at')->nullable();
+
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign(columns:'user_id')->references('id')->on('users');
-            $table->foreign(columns:'category_id')->references('id')->on('blog_categories');
-            $table->index(columns:'is_published');
+
+            $table->index('is_published');
+
+
         });
     }
 
