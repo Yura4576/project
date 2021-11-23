@@ -89,19 +89,10 @@ class PostController extends BaseController
             compact('item', 'categoryList'));
         }
 
-        /**
-         * Update the specified resource in storage.
-         *
-         * @param \Illuminate\Http\Request $request
-         * @param int                       $id
-         *
-         * @return Illuminate\Http\Response
-         */
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  BlogPostUpdateRequest  $request
      * @param  int                       $id
      * @return \Illuminate\Http\Response
      */
@@ -117,12 +108,14 @@ class PostController extends BaseController
 
         $data = $request->all();
 
-        if (empty($data['slug'])) {
-            $data['slug'] = \Str::slug($data['title']);
-        }
-        if (empty($item->published_at) && $data['is_published']) {
-            $data['published_at'] = Carbon::now();
-        }
+
+//         //Ушло в обсервер
+//         if (empty($data['slug'])) {
+//            $data['slug'] = \Str::slug($data['title']);
+//        }
+//        if (empty($item->published_at) && $data['is_published']) {
+//            $data['published_at'] = Carbon::now();
+//        }
 
             $result = $item->update($data);
 
