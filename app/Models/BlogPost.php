@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- *
+ *Class BlogPost
  * @package App\Models
  *
  * @property \App\Models\BlogCategory   $category
@@ -26,6 +26,7 @@ class BlogPost extends Model
     use HasFactory;
     use SoftDeletes;
 
+    const UNKNOWN_USER = 1;
     protected $fillable
     = [
             'title',
@@ -35,7 +36,6 @@ class BlogPost extends Model
             'content_raw',
             'is_published_at',
             'published_at',
-            'user_id',
         ];
 
     /**

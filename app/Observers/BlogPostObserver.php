@@ -15,9 +15,13 @@ class BlogPostObserver
      */
     public function creating(BlogPost $blogPost)
     {
-        /*$this->>setPublishedAt($blogPost);
+        $this->setPublishedAt($blogPost);
 
-        $this->setSlug($blogPost);*/
+        $this->setSlug($blogPost);
+
+        $this->setHtml($blogPost);
+
+        $this->setUser($blogPost);
     }
 
     /**
@@ -27,17 +31,8 @@ class BlogPostObserver
      */
     public function updating(BlogPost $blogPost)
     {
-//        $test[] = $blogPost->isDirty();
-//        $test[] = $blogPost->isDirty('is_published');
-//        $test[] = $blogPost->isDirty('user_id');
-//        $test[] = $blogPost->getAttribute('is_published');
-//        $test[] = $blogPost->is_published;
-//        $test[] = $blogPost->getOriginal('is_published');
-//        dd($test);
-
         $this->setPublishedAt($blogPost);
         $this->setSlug($blogPost);
-
     }
 
     /**
@@ -65,6 +60,29 @@ class BlogPostObserver
         if(empty($blogPost->slug)) {
             $blogPost->slug = \Str::slug($blogPost->title);
         }
+    }
+
+    /**
+     * Установка значения полю content_html поля content_raw.
+     *
+     * @param BlogPost $blogPost
+     */
+    protected function setHtml(BlogPost $blogPost)
+    {
+        if($blogPost->isDirty('content_raw')) {
+            // TODO: Тут должна быть генерация markdown->html
+            $blogPost->content_html = $blogPost->content_raw;
+        }
+    }
+
+    /**
+     * Если не указан user_id, то устанавливаем пользователя по-умолчанию
+     *
+     * @param BlogPost $blogPost
+     */
+    protected function setUser(BlogPost $blogPost)
+    {
+        $blogPost->user_id = auth()->id() ?? BlogPost::UNKNOWN_USER;
     }
 
     /**
