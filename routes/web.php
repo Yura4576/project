@@ -9,6 +9,12 @@ Route::get('/',function(){
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+Route::group(['prefix' => 'digging_deeper',], function () {
+    Route::get('collections', 'DiggingDeeperController@collections')
+        ->name('digging_deeper.collections');
+});
+
 Route::group(['namespace' => 'Blog', 'prefix' => 'blog'], function () {
     Route::resource('posts', '\App\Http\Controllers\Blog\PostController')->names('blog.posts');
 });
